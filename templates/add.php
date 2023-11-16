@@ -14,23 +14,32 @@
     if(empty($_POST['email'])){
         echo "Please enter your email";
     }else{
-        echo htmlspecialchars($_POST['email']);
-
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            echo "Please enter a valid email address";
+        }
+        
     }
 
     //check title
     if (empty($_POST['title']))  {
         echo "Please enter your title";
     }else{
-        echo  htmlspecialchars($_post['title']);
+        $title = $_POST['title'];
+        if(!preg_match("/^[a-zA-Z\s]+$/",$title)){
+            echo 'Title must be letters and numbers';
+        }
     }
     //check ingredients
-    if(empty($_post['ingredients'])){
+    if (empty($_POST['ingredients'])) {
         echo "Please enter ingredients";
-
-    }else{
-        echo htmlspecialchars($_post['ingredients']);
+    } else {
+        $ingredients = $_POST['ingredients'];
+    
+        if (!preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]+)*$/', $ingredients)) {
+            echo "Ingredients must be comma separated";
+        }
     }
+    
   }
 
 
@@ -50,7 +59,7 @@
             <label for="">Pizza Title:</label>
             <input type="text" name="title" id="" require>
             <label for="">Ingridants (comma separeted):</label>
-            <input type="text" name="ingridients" id="" require>
+            <input type="text" name="ingredients" id="" require>
             <div class="center">
               <input type="submit" value="submit" name="submit">
             </div>
